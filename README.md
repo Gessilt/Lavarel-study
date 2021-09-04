@@ -3,8 +3,8 @@ A study of Lavarel, MVC and a little bit of composer.
 
 Let's start with MVC, will post some notes about my research. 
 
-https://www.youtube.com/watch?v=jTLzytrte5k&list=PLVSNL1PHDWvQwfqqY7XSobGuV39KsM46G&index=2
-A video that helps me a lot.
+https://youtu.be/qH7rsZBENJo
+A playlist that helps me a lot.
 
 # Composer
 
