@@ -57,7 +57,6 @@ Contactcting the controller, then show the data on a view screen, like said befo
 The interaction with user, the controller need methods to react a action done by the user in the view.
 In some cases, it need to show data from a model. 
             
-            ![MVC3](https://user-images.githubusercontent.com/86273719/132092837-a3cbd56b-1998-4f88-9ffb-999a207052e2.png)
 ![MVC3](https://user-images.githubusercontent.com/86273719/132092816-850880eb-029e-4c79-8b98-e8472b576b5f.png)      
 
 # Calm down. To be continued
