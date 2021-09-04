@@ -121,9 +121,9 @@ In the following way, you must remember the names of the indexes that were defin
 
         @for($i = 0; $i < count($numbers); $i++)
             @if ($numbers[$i] % 2 == 0)
-                <p> {{$numbers[$i]}} - {{$i}}; O número é par </p>
+                <p> {{$numbers[$i]}} - {{$i}}; The number is even </p>
             @else 
-                <p> {{$numbers[$i]}} - {{$i}}; O número é ímpar </p>
+                <p> {{$numbers[$i]}} - {{$i}}; The number is odd </p>
             @endif
         @endfor
         <!-- We can call php, using @ php and @ endphp, without the space between the @ and php. -->
