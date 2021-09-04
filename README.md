@@ -45,7 +45,19 @@ Receives the data from view or modal and with it, make a decision - it can be a 
 
 ## Core
 
-Handles the URL, decides which controller and method should be called or executed.
+Handles the URL, decides which controller and method should be called or executed. Call the Models or Views
+
+## Models
+
+Here is the logic of the entities, the interaction with the database, basically saying.
+Contactcting the controller, then show the data on a view screen, like said before.
+
+## Views
+
+The interaction with user, the controller need methods to react a action done by the user in the view.
+In some cases, it need to show data from a model. 
+            
+            ![MVC3](https://user-images.githubusercontent.com/86273719/132092816-850880eb-029e-4c79-8b98-e8472b576b5f.png)      
 
 # Calm down. To be continued
 
