@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@yield('title') </title> {{-- The title of site will be passed here--}}
+        {{-- Google fonts --}}
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet"> 
+
+        {{-- CSS bootstrap --}}
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+        {{-- Local CSS --}}
+        <link rel="stylesheet" href="/css/styles.css"> </link>
+        <script src="/js/script.js"> </script>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="collapse navbar-collapse" id="navbar"> 
+                    <a href="/" class="navbar-brand">
+                        <img src="/img/wolf.png" alt = "Wolf">
+                    </a>
+                    <ul class="navbar-nav"> 
+                        <li class = "nav-item"> 
+                            <a href='/' class="nav-link"> Events </a>
+                        </li>
+                        <li class = "nav-item"> 
+                            <a href='/events/create' class="nav-link"> Create events </a>
+                        </li>
+                        <li class = "nav-item"> 
+                            <a href='/' class="nav-link"> Enter </a>
+                        </li>
+                        <li class = "nav-item"> 
+                            <a href='/' class="nav-link"> Registration </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>    
+        </header>
+        @yield('content') {{-- The content of the site will be passed here--}}
+        <footer>
+
+        </footer>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    </body>
+</html>
