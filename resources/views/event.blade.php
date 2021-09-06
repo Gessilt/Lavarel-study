@@ -18,6 +18,7 @@
             <div class = 'card col-md-3'>
                 <img src="/img/events/{{$eventData->image}}" alt="{{ $eventData->title }}">
                 <div class='card-body'>
+                    Tu<p class='card-date'> {{date('d/m/y'), strtotime($eventData->date)}} </p>
                     <h5 class='card-title'> {{$eventData->title}} </h5>
                     <p class='card-participants'> x Participants </pc>
                     <a href="/events/{{$eventData->id}}" class="btn btn-primary"> Know more </a>
