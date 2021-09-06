@@ -84,8 +84,8 @@ Let's get some things straight, the get method it calls is inherited from the Ro
 Let's simplify the get syntax:
 
 ```bash
-Route::get("/namearchive", function () {
-return view('nameinURL',[parameters]);
+Route::get("/nameinURL", function () {
+return view('namearchive',[parameters]);
 });
 ```
 
@@ -114,9 +114,9 @@ In the following way, you must remember the names of the indexes that were defin
         <p> {{ $name }} </p>
 
         @if($name  == "Matheus")
-            <p> Hi, Matheus, you're {{$age}} years old </p>
+            <p> Hi, Matheus, you are  {{$age}} years old </p>
         @else
-            <p> The name is {{ $name }}, you're {{$age}} years old </p>
+            <p> The name is {{ $name }}, you are {{$age}} years old </p>
         @endif
 
         @for($i = 0; $i < count($numbers); $i++)
@@ -139,9 +139,215 @@ Using the reference defined earlier, in route, we'll use it here, otherwise lara
 
 Instead of using braces ({}) to identify the end of some structure, we use @end. This is how the blade understands that the structure is gone.
 
+### Blade layout
+
+Is possible create a layout with blade, we can use the same header e footer in all pages.
+In your folder views, create a new folder called layouts, inside, create a file called main.blade.php, and put everything that you want that be standardized. 
+
+We can put a value that can be inserted when the layout is called, like the title and the content, do like that:
+```bash
+    <title>@yield('title') </title> 
+```
+The title of site will be passed here
+
+```bash
+    @yield('content') 
+```
+The content of the site will be passed here
+
+How to use in view archives?
+
+```bash
+@extends('layouts/main')  
+``` 
+Call the layout
+
+```bash
+@section('title','Parameters by URL')
+
+@section('content')
+
+    <h1> Paste your HTML body here </h1> 
+
+@endsection
+``` 
+Section is used to represent a value defined on Yield in the main layout.
+
+If you don't insert by the first way, you need to put an endsection, like the second example.
+
+### Parameters
+
+We should put the parameters like: {id};
+We have the possibility of create optional parameters, using: ?;
+{id} will be waiting for an parameter, not putting it, causes an error;
+{id?} is optional, we need to define the parameter of function(), which can be null.
+
+Check the different names in the Route::get and the view.
+
+```bash
+Route::get('/parameters/{id?}',function ($id = null) { 
+   return view('queryParameters',['id' => $id]);
+});
+```
+
+In URL, we can insert some parameters showing their names, differently of the other.
+Like: "URL"?search="me".
+```bash
+Route::get('/parameterSearch',function () {
+        $search = request('search');
+
+        return view('queryParameterSearch',['search' => $search]);    
+});
+```
+
+The request will break up the URL, get the value of search defined and transform it into a value, which can be stored.
+
+# Controler
+
+Controller can be created by artisan.
+Enter in laravel folder and write this code: 
+```bash
+"php artisan make:controller NameControler"
+```
+A important recommendation, the first letter of class must be uppercase + "Controller"
+
+The controller is created in controllers folder
+
+### Inside Controller
+
+After creating a controller, we can set some functions up, is normally created one called "index", which is the function that is called when no other is.
+
+This functions will work like the functions of web.php. But we can call the functions of controller class in web.php.
+
+First, add the class in the file: 
+```bash
+use App\Http\Controllers\EventController;
+```
+After it, get an Route::get and replace the function(){} by the function of class.
+
+```bash
+Route::get('/nameInURL',[NameClassController::class,'index']);
+```
+#### Create event w/ blade
+
+If the page is dependent of one class, we should create a new folder inside of views, related to the class. 
+
+Inside this class, put yours files. Example of calling:
+```bash
+Route::get('/events/create',[NameClassControler::class,'create']);
+```
+
+OBS: To call on a view method, you need to change the "/" for ".". Example:
+```bash
+return view('events.create');
+```
+
+# Database
+
+The connection to the database is configured by the file .env;
+Utilizes an ORM called Eloquent, and the migrations, to create and modify tables.
+
+## Migrations
+
+Migrations are like a versioning of database;
+Can we forward and backward at any moment;
+Like said above, can we insert and delete columns;
+Make the setup of an database by a simple command;
+Can we certificate the migrations with:
+```bash
+migrate:status
+```
+
+Let's try a connection with the database creating some tables that are already configured with migrations.
+```bash
+php artisan migrate 
+```
+You can configure the tables on the folder migrations.
+"database->migrations". 
+
+Create a new migration:
+```bash
+php artisan make:migration create_products_table 
+```
+A new archive will be created, we can change it, add new columns. If the table is already created, we can set it up again by the fresh command.
+```bash
+php artisan migrate:fresh
+```
+OBS: Take caution, the fresh drop the tables and create new ones, look out your data.
+
+"Rollback" command make migration backward;
+To backward all tables, can we use "reset";
+To backward all tables and create the migrations, we need use "refresh". 
+
+To add a new column in a existent migration, you need to create a new migration.
+
+In this migration, put the new column inside the method up(), futhermore, you need to put the same column in down() method, to possibility a rollback on migration. 
+To add: 
+```bash
+$table->string('column',100);
+```
+To drop: 
+```bash
+$table->dropColumn('column');
+```
+
+## Eloquent
+
+The lavarel's ORM;
+Each table have a model, responsible for the interaction between the requisitions to the database;
+Following the good pratiques, Model must have it name on singular, while the table is in plural; Event and events;
+Model is rarely modified, only specific alterations. 
+
+# Model
+
+We can use artisan to create a new model too. 
+
+```bash
+php artisan make:model NameModel
+```
+After creating a Model, let's use one principle of MVC, the contact between controller and model. 
+
+## Select
+
+Hope you've insert some data in your table, with this on mind. How do I get all my data? 
+
+Finally, back on controller, on the function index. We can call all data from one table.
+```bash
+$events = Event::all();
+```
+
+## Insert
+
+In laravel, we have a specific action referent to POST, it called store.
+In store, we will create the object and create it with data from POST.
+To save the data sended, the method utilized is: "save".
+
+Now, go on and create a POST formulary to the test. To the laravel allow the passage of data, you need define "@csrf" in start on form.
+
+Before the creation of POST form, you can pass the collected data to action as follows:
+```bash
+Route::POST('/action',[EventController::class,'store']);
+```
+Store is the name conventional used to store data in a table. Use it.
+
+In the function store, you will need to get the POST data with the object type Request, and instantiate the model class. 
+```bash
+public function store(Request $request) {
+    
+    $class = new ModalClass;
+
+    $class->title = $request->title;
+    $class->city = $request->city;
+    $class->description = $request->description;
+    $class->private = $request->private;
+    $event->save();
+    return redirect('/');
+}
+```
+Pass the data of Request to the class and call the method save, like said above.
+
+The redirect will send the user to an page, which is customizable.
+
+
+
 # Calm down. To be continued
-
-
-
-
-
