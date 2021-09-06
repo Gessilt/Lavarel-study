@@ -15,15 +15,18 @@
     <p class='subtitle'> See the events of next days</p>
     <div id='card-container' class='row'>
         @foreach($events as $eventData)
-            <div class = 'card col-md-3'> 
+            <div class = 'card col-md-3'>
+                <img src="/img/events/{{$eventData->image}}" alt="{{ $eventData->title }}">
                 <div class='card-body'>
-                    <p class='card-date'>10/09/2020 </p>
                     <h5 class='card-title'> {{$eventData->title}} </h5>
                     <p class='card-participants'> x Participants </pc>
-                    <a href="#" class="btn btn-primary"> Know more </a>
+                    <a href="/events/{{$eventData->id}}" class="btn btn-primary"> Know more </a>
                 </div>
             </div>
         @endforeach
+        @if (count($events) == 0) 
+            <p> None event available </p>
+        @endif
     </div>
 
 
