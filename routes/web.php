@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::get('/event',[EventController::class,'index']);
 Route::get('/new',[EventController::class,'new']);
 Route::get('/events/create',[EventController::class,'create']);
+Route::get('/events/{id}',[EventController::class,'show']);
 Route::get('/static', [EventController::class,'static']);
 Route::get('/parameters/{id?}',[EventController::class,'queryParameter']);
 Route::get('/parameterSearch', [EventController::class,'searchParameter']);
