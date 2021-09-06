@@ -281,6 +281,13 @@ To backward all tables and create the migrations, we need use "refresh".
 
 To add a new column in a existent migration, you need to create a new migration.
 
+```bash
+php artisan make:migration add_image_to_event_table
+```
+This is the conventional name for the new migration.
+
+add_column_to_tableOnDatabase_table
+
 In this migration, put the new column inside the method up(), futhermore, you need to put the same column in down() method, to possibility a rollback on migration. 
 To add: 
 ```bash
@@ -290,6 +297,8 @@ To drop:
 ```bash
 $table->dropColumn('column');
 ```
+
+After it, only migrate and the new column will be in your table.
 
 ## Eloquent
 
@@ -315,6 +324,11 @@ Finally, back on controller, on the function index. We can call all data from on
 ```bash
 $events = Event::all();
 ```
+
+### Redeem one data
+
+Use of Eloquent;
+The method used is "findOrFail".
 
 ## Insert
 
@@ -347,6 +361,187 @@ public function store(Request $request) {
 Pass the data of Request to the class and call the method save, like said above.
 
 The redirect will send the user to an page, which is customizable.
+
+
+## Saving images
+
+To upload images we need change the enctype of form, and create a submit input for it. 
+The treatment is done on the controller.
+Save the image with a unique name in a project directory, because in database we only store the path of image.
+Put this property in you principal form. 
+```bash
+enctype="multipart/form-data"
+```
+Create a input for image  
+```bash
+<div class="form-group">
+    <label for='image'> Image: </label>
+    <input type='file' class='form-control-file' id='image' name='image'>
+</div>
+```
+### Inside controller
+
+```bash
+
+if($request->hasfile('image') && $request->file('image')->isValid()) {
+
+    $requestImage  = $request->image;
+    // Get the image
+
+    $extension = $requestImage->extension();
+    // See if the image is .jpg or .png...
+
+    $imageName = md5($requestImage->getClientOriginalName() . strtotime('now')) . '.' . $extension;
+    // Encrypt the image name, save the time it was inserted and put the type of extension in the final.
+
+    $requestImage->move(public_path('img/events'), $imageName);
+    //Upload image locally, in this case on "img/events".
+
+
+    $event->image = $imageName;
+    //Save the attribute of Modal to make the insertion
+}
+```
+Then, save it.
+
+## Find Or Fail
+
+If you want get all data from a unique id in database? The method find or fail can do this for you, this one is simple to do. 
+
+```bash
+public function show ($id) {
+        
+    $event = Event::findOrFail($id);
+    //Searching in table all data that the id is equal to $id from POST.
+
+    return view('events.show',['event' => $event]);
+
+    //Return all data
+
+}
+```
+
+Good to see it, remember that show is a convention of laravel, to show the data of a specific thing. 
+
+## Saving JSON
+
+Save a set of data in database for multiple choices itens;
+Can we create a field determined of json by migrations;
+With this, we can use input by checkbox.
+
+After to the migrate process to add a json "items" on database, let's modify our formulary. 
+
+### Inside view
+
+```bash 
+<div class="from-group">
+    <input type='checkbox' name='items[]' value='Chairs'> Chairs 
+</div>
+```
+The name must be 'items[]', because it will be passed like an array, and the value will be inside this array.
+
+### Inside controller
+
+Just add it before insert the data to database.
+
+```bash
+$event->items = $request->items;
+```
+### Inside modal
+
+You need to define that the item "items" is an array, otherwise will not work. You define it by inserting this on Modal of the class table.
+```bash
+protected $casts =[ 
+    'items'=>'array'
+];
+```
+Futhermore, you will be capable of adding JSON items on database.
+
+## Save Date
+
+### Inside Modal
+
+You will need add a new specification in Modal. 
+```bash
+protected $dates =['date'];
+```
+Now, the modal will understand the Data in datetime value
+
+### Inside view
+
+Needs create an input,type date. 
+
+After, to show this data, you will need call the date and strtotime methods.
+
+```bash
+<p class='card-date'> {{date('d/m/y'), strtotime($eventData->date)}} </p>
+```
+
+### Inside controller 
+
+Process data submission via controller.
+
+Do it normally, nothing to change this time.
+
+
+
+
+
+
+
+# Flash Messages
+
+A interaction with user.
+We can add one using the method with in controllers.
+Show a feedback to user.
+Using blade, is possible verify the presence of flash by the @session.
+
+Starting in controller, to add an Flash Message, you need call the "with" method. 
+
+```bash
+return redirect('/folder')->with('msg','Created successfully');
+```
+
+To appear on your website, using the blade create like this: 
+
+```bash
+@if (@session('msg'))
+    <p class ='msg'> {{@session('msg')}}  </p>
+@endif
+```
+@session is responsible for store the message.  
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
 
 
 
