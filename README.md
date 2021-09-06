@@ -139,7 +139,7 @@ Using the reference defined earlier, in route, we'll use it here, otherwise lara
 
 Instead of using braces ({}) to identify the end of some structure, we use @end. This is how the blade understands that the structure is gone.
 
-### Blade layout
+## Blade layout
 
 Is possible create a layout with blade, we can use the same header e footer in all pages.
 In your folder views, create a new folder called layouts, inside, create a file called main.blade.php, and put everything that you want that be standardized. 
@@ -175,7 +175,7 @@ Section is used to represent a value defined on Yield in the main layout.
 
 If you don't insert by the first way, you need to put an endsection, like the second example.
 
-### Parameters
+## Parameters
 
 We should put the parameters like: {id};
 We have the possibility of create optional parameters, using: ?;
@@ -202,7 +202,7 @@ Route::get('/parameterSearch',function () {
 
 The request will break up the URL, get the value of search defined and transform it into a value, which can be stored.
 
-# Controler
+## Controller
 
 Controller can be created by artisan.
 Enter in laravel folder and write this code: 
@@ -228,7 +228,7 @@ After it, get an Route::get and replace the function(){} by the function of clas
 ```bash
 Route::get('/nameInURL',[NameClassController::class,'index']);
 ```
-#### Create event w/ blade
+#### Create event with blade
 
 If the page is dependent of one class, we should create a new folder inside of views, related to the class. 
 
@@ -242,12 +242,12 @@ OBS: To call on a view method, you need to change the "/" for ".". Example:
 return view('events.create');
 ```
 
-# Database
+## Database
 
 The connection to the database is configured by the file .env;
 Utilizes an ORM called Eloquent, and the migrations, to create and modify tables.
 
-## Migrations
+### Migrations
 
 Migrations are like a versioning of database;
 Can we forward and backward at any moment;
@@ -307,7 +307,7 @@ Each table have a model, responsible for the interaction between the requisition
 Following the good pratiques, Model must have it name on singular, while the table is in plural; Event and events;
 Model is rarely modified, only specific alterations. 
 
-# Model
+## Model
 
 We can use artisan to create a new model too. 
 
@@ -316,7 +316,7 @@ php artisan make:model NameModel
 ```
 After creating a Model, let's use one principle of MVC, the contact between controller and model. 
 
-## Select
+### Select
 
 Hope you've insert some data in your table, with this on mind. How do I get all my data? 
 
@@ -325,12 +325,27 @@ Finally, back on controller, on the function index. We can call all data from on
 $events = Event::all();
 ```
 
-### Redeem one data
+#### Redeem one data
 
 Use of Eloquent;
 The method used is "findOrFail".
 
-## Insert
+```bash
+public function show ($id) {
+        
+    $event = Event::findOrFail($id);
+    //Searching in table all data that the id is equal to $id from POST.
+
+    return view('events.show',['event' => $event]);
+
+    //Return all data
+
+}
+```
+
+Good to see it, remember that show is a convention of laravel, to show the data of a specific thing. 
+
+### Insert
 
 In laravel, we have a specific action referent to POST, it called store.
 In store, we will create the object and create it with data from POST.
@@ -363,7 +378,7 @@ Pass the data of Request to the class and call the method save, like said above.
 The redirect will send the user to an page, which is customizable.
 
 
-## Saving images
+#### Saving images
 
 To upload images we need change the enctype of form, and create a submit input for it. 
 The treatment is done on the controller.
@@ -379,7 +394,7 @@ Create a input for image
     <input type='file' class='form-control-file' id='image' name='image'>
 </div>
 ```
-### Inside controller
+##### Inside controller
 
 ```bash
 
@@ -404,26 +419,7 @@ if($request->hasfile('image') && $request->file('image')->isValid()) {
 ```
 Then, save it.
 
-## Find Or Fail
-
-If you want get all data from a unique id in database? The method find or fail can do this for you, this one is simple to do. 
-
-```bash
-public function show ($id) {
-        
-    $event = Event::findOrFail($id);
-    //Searching in table all data that the id is equal to $id from POST.
-
-    return view('events.show',['event' => $event]);
-
-    //Return all data
-
-}
-```
-
-Good to see it, remember that show is a convention of laravel, to show the data of a specific thing. 
-
-## Saving JSON
+#### Saving JSON
 
 Save a set of data in database for multiple choices itens;
 Can we create a field determined of json by migrations;
@@ -431,7 +427,7 @@ With this, we can use input by checkbox.
 
 After to the migrate process to add a json "items" on database, let's modify our formulary. 
 
-### Inside view
+##### Inside view
 
 ```bash 
 <div class="from-group">
@@ -440,14 +436,14 @@ After to the migrate process to add a json "items" on database, let's modify our
 ```
 The name must be 'items[]', because it will be passed like an array, and the value will be inside this array.
 
-### Inside controller
+##### Inside controller
 
 Just add it before insert the data to database.
 
 ```bash
 $event->items = $request->items;
 ```
-### Inside modal
+##### Inside modal
 
 You need to define that the item "items" is an array, otherwise will not work. You define it by inserting this on Modal of the class table.
 ```bash
@@ -457,9 +453,9 @@ protected $casts =[
 ```
 Futhermore, you will be capable of adding JSON items on database.
 
-## Save Date
+#### Save Date
 
-### Inside Modal
+##### Inside Modal
 
 You will need add a new specification in Modal. 
 ```bash
@@ -467,7 +463,7 @@ protected $dates =['date'];
 ```
 Now, the modal will understand the Data in datetime value
 
-### Inside view
+##### Inside view
 
 Needs create an input,type date. 
 
@@ -477,19 +473,13 @@ After, to show this data, you will need call the date and strtotime methods.
 <p class='card-date'> {{date('d/m/y'), strtotime($eventData->date)}} </p>
 ```
 
-### Inside controller 
+##### Inside controller 
 
 Process data submission via controller.
 
 Do it normally, nothing to change this time.
 
-
-
-
-
-
-
-# Flash Messages
+## Flash Messages
 
 A interaction with user.
 We can add one using the method with in controllers.
@@ -510,39 +500,6 @@ To appear on your website, using the blade create like this:
 @endif
 ```
 @session is responsible for store the message.  
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-
 
 
 # Calm down. To be continued
