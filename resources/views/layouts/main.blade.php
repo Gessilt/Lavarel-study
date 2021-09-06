@@ -43,7 +43,16 @@
                 </div>
             </nav>    
         </header>
-        @yield('content') {{-- The content of the site will be passed here--}}
+            <main> 
+                <div class="container-fluid">
+                    <div class="row">
+                        @if (@session('msg'))
+                            <p class ='msg'> {{@session('msg')}}  </p>
+                        @endif
+                        @yield('content') {{-- The content of the site will be passed here--}}
+                    </div>
+                </div>
+            </main>
         <footer>
 
         </footer>
