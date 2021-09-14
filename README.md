@@ -502,4 +502,4 @@ To appear on your website, using the blade create like this:
 @session is responsible for store the message.  
 
 
-# Calm down. To be continued
+# Calm down. To be continued soon
