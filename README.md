@@ -181,6 +181,7 @@ We should put the parameters like: {id};
 We have the possibility of create optional parameters, using: ?;
 {id} will be waiting for an parameter, not putting it, causes an error;
 {id?} is optional, we need to define the parameter of function(), which can be null.
+That optional parameter need to be in the final part of URL, because laravel can't diferentiate which is or not.
 
 Check the different names in the Route::get and the view.
 
